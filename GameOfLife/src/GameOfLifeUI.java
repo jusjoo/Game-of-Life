@@ -20,7 +20,7 @@ public class GameOfLifeUI implements ActionListener {
 	
     public static void main(String[] args) {
     	    	
-    	GameOfLifeUI ui = new GameOfLifeUI(8, 20, grid);
+    	GameOfLifeUI ui = new GameOfLifeUI(8, new CellGrid(20));
     }
 
     /**

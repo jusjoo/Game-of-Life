@@ -77,4 +77,9 @@ public class CellGrid{
 		return size;
 	}
 
+	public int getCellsPerRow() {
+		// TODO Auto-generated method stub
+		return size;
+	}
+
 }
