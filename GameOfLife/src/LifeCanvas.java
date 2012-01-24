@@ -20,17 +20,18 @@ public class LifeCanvas extends Component implements MouseListener, MouseMotionL
 	private int cellSize;
 	private int cellsPerRow;
 	private Random rnd;
-	private CellGrid grid;
+	private GameOfLife game;
 	
 	/**
 	 * Luo uuden LifeCanvaksen
 	 * @param cellSize
 	 * @param cellsPerRow
 	 */
-	public LifeCanvas(int cellSize, CellGrid grid) {
+	public LifeCanvas(int cellSize, GameOfLife gameinstance) {
 		this.cellSize = cellSize;
-		this.cellsPerRow = grid.getCellsPerRow();
-		this.grid = grid;
+		this.game = gameinstance;
+		this.cellsPerRow = game.getGrid().getSize();
+		
 		
 		rnd = new Random(System.currentTimeMillis());
 		
@@ -40,7 +41,7 @@ public class LifeCanvas extends Component implements MouseListener, MouseMotionL
     }
 
     public Dimension getPreferredSize() {
-    	int canvasSize = cellSize * cellsPerRow;
+    	int canvasSize = cellSize * cellsPerRow +1 ;
         return new Dimension(canvasSize, canvasSize);
     }
 
@@ -59,10 +60,14 @@ public class LifeCanvas extends Component implements MouseListener, MouseMotionL
         	// rivin solut
         	for (int j=0; j < cellsPerRow; j++) {
         		
+        		// piirretään tyhjän solun reunat
+        		g.setColor(Color.gray);
+        		for (int x=0; x < cellSize; x++) g.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
+        		
         		// Tarkistetaan, onko solu elossa
-        		if (grid.getCellStatus(i, j)) {
+        		if (game.getGrid().getCellStatus(i, j)) {
         			// Asetetaan satunnainen väri ja piirretään solu.
-        	        g.setColor(new Color(rnd.nextFloat(), rnd.nextFloat(),rnd.nextFloat()));
+        	        g.setColor(Color.BLACK);
         	        g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
         		}
         		
@@ -73,7 +78,6 @@ public class LifeCanvas extends Component implements MouseListener, MouseMotionL
 
 @Override
 public void mouseDragged(MouseEvent arg0) {
-	// TODO Auto-generated method stub
 	
 }
 
@@ -83,9 +87,15 @@ public void mouseMoved(MouseEvent arg0) {
 	
 }
 
-@Override
+/*
+ * Klikkaamalla pelialuetta voidaan muuttaa solun tilaa
+ * 
+ * Lähettää grid-oliolle oikeat CellGrid-koordinaatit.
+ */
 public void mouseClicked(MouseEvent e) {
-	grid.toggle(e.getX(), e.getY());
+	
+	// Jaetaan hiiren koordinaatit solun koolla, josta saadaan selville solun koordinaatit.
+	game.getGrid().toggle((int)Math.floor(e.getX()/cellSize), (int)Math.floor(e.getY()/cellSize));
 	repaint();
 }
 

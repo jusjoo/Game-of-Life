@@ -5,7 +5,7 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-/*
+/**
  * Game of Lifen graafinen k‰yttˆliittym‰
  */
 public class GameOfLifeUI implements ActionListener {
@@ -14,14 +14,9 @@ public class GameOfLifeUI implements ActionListener {
 	private JButton clearButton;
 	private JButton startButton;
 	private JButton stopButton;
-	private CellGrid grid;
 	private LifeCanvas canv;
 	private GameOfLife game;
 	
-    public static void main(String[] args) {
-    	    	
-    	GameOfLifeUI ui = new GameOfLifeUI(8, new CellGrid(20));
-    }
 
     /**
      * Luo uuden Game of Life -k‰yttˆliittym‰n.
@@ -31,8 +26,9 @@ public class GameOfLifeUI implements ActionListener {
      * ae: 	grid != null && 
      * 		cellSize > 0
      */
-	public GameOfLifeUI(int cellSize, CellGrid grid) {
-		
+	public GameOfLifeUI(int cellSize, GameOfLife gameinstance) {
+				
+		this.game = gameinstance;
 		
 		frame = new JFrame("Game of Life");
     	Container contentPane = frame.getContentPane();
@@ -47,7 +43,7 @@ public class GameOfLifeUI implements ActionListener {
         });
         
         // Luodaan osat
-        canv = new LifeCanvas(cellSize, grid);
+        canv = new LifeCanvas(cellSize, gameinstance);
         frame.add(canv);
         
         clearButton = new JButton("Clear");
@@ -57,6 +53,7 @@ public class GameOfLifeUI implements ActionListener {
         startButton.addActionListener(this);
         
         stopButton = new JButton("Stop");
+        stopButton.setEnabled(false);
         stopButton.addActionListener(this);
         
         // Lis‰t‰‰n osat ikkunaan
@@ -65,6 +62,10 @@ public class GameOfLifeUI implements ActionListener {
         frame.add(stopButton);
         
         frame.pack();
+        frame.setSize(cellSize*gameinstance.getGrid().getSize() + 15, cellSize*gameinstance.getGrid().getSize() + 75);
+        frame.setResizable(false);
+        
+        
         frame.setVisible(true);
 	}
 
@@ -74,21 +75,35 @@ public class GameOfLifeUI implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		
-		// tyhjent‰‰ pelialustan
+		// tyhjent‰‰ pelialustan ja lopettaa simuloinnin
 		if(e.getSource() == clearButton) {
-			grid.clear();
+			game.getGrid().clear();
+			game.stopSimulation();
+			startButton.setEnabled(true);
+			stopButton.setEnabled(false);
 			canv.repaint();
 		}
 		
 		// aloittaa pelin simuloinnin
 		if(e.getSource() == startButton) {
-			game.start();
+			game.startSimulation();
+			startButton.setEnabled(false);
+			stopButton.setEnabled(true);
 		}
 		
 		// pys‰ytt‰‰ pelin simuloinnin
 		if(e.getSource() == stopButton) {
-			game.stop();
+			game.stopSimulation();
+			startButton.setEnabled(true);
+			stopButton.setEnabled(false);
 		}
+		
+	}
+
+
+	public void update() {
+		canv.repaint();
+		
 	}
 
 }
