@@ -24,6 +24,10 @@ public class GameOfLife implements Runnable{
 	}
 	
 
+	/**
+	 * Pelaa peliä yhden kierroksen eteenpäin, ja tallentaa muutokset
+	 * grid-luokkamuuttujaan.
+	 */
 	public void nextStep(){
 		// Luodaan uusi väliaikainen grid-olio
 		CellGrid temp = new CellGrid(grid.getSize());
@@ -52,13 +56,10 @@ public class GameOfLife implements Runnable{
 				else if (counter >= 3 && counter <= 7)
 					temp.setCellStatus(j, i, true);
 			}
-			
 		}
 		
-		// päivitetään uusi grid
+		// päivitetään grid-olio
 		grid = temp;
-		
-		
 
 	}
 
@@ -96,7 +97,6 @@ public class GameOfLife implements Runnable{
 				ui.update();
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
