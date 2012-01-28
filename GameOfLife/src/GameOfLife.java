@@ -25,7 +25,7 @@ public class GameOfLife implements Runnable{
 	
 
 	/**
-	 * Pelaa peli‰ yhden kierroksen eteenp‰in, ja tallentaa muutokset
+	 * Pelaa peli‰ yhden kierroksen eteenp‰in, ja p‰ivitt‰‰ muutokset
 	 * grid-luokkamuuttujaan.
 	 */
 	public void nextStep(){
@@ -41,20 +41,25 @@ public class GameOfLife implements Runnable{
 					int n = i-1;
 					
 					while (n <= i+1) { // Tarkasteltavan alkion ymp‰ristˆn vaakarivit
-						// jos elossa, lis‰t‰‰n counteriin yksi
-						if (grid.getCellStatus(m,n) == true) counter++; 
-						
+						// jos elossa, eik‰ ole itse tarkasteltava alkio
+						if (grid.getCellStatus(m,n) == true && (i != 0 || j != 0)) {
+							// jos elossa, lis‰t‰‰n counteriin yksi
+							counter++; 
+						}
 						n++;
 					}
 				}
 				
 				// Edet‰‰n pelin s‰‰ntˆjen mukaisesti
-				if (grid.getCellStatus(j, i) == true){
-					if (counter <= 1 || counter >= 7)
-						temp.setCellStatus(j,i, false);
+				if (counter <= 1) {
+					temp.setCellStatus(j, i, false);
 				}
-				else if (counter >= 3 && counter <= 7)
+				if (counter == 3) {
 					temp.setCellStatus(j, i, true);
+				}
+				if (counter >= 4) {
+					temp.setCellStatus(j, i, false);
+				}
 			}
 		}
 		
@@ -95,7 +100,7 @@ public class GameOfLife implements Runnable{
 			try {
 				this.nextStep();
 				ui.update();
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
