@@ -7,6 +7,12 @@ public class CellGrid{
 	private int size;
 	private boolean[][] t;
 
+	
+	/**
+	 * Luo uuden CellGrid-olion
+	 * 
+	 * @.pre	size > 0
+	 */
 	public CellGrid(int size){
 		
 		t = new boolean[size][size];
@@ -17,6 +23,9 @@ public class CellGrid{
 
 	/**
 	 * Palauttaa solun tilan pisteess‰ (x,y)
+	 * 
+	 * @.pre: 	x != null &&
+	 * 			y != null
 	 * 
 	 * @.post: 	jos (x,y) taulukon ulkopuolella, return false.
 	 */
@@ -31,7 +40,9 @@ public class CellGrid{
 		return false;
 	}
 
-	//Clears the grid (sets every cell status to 0).
+	/**
+	 * Tyhjent‰‰ taulukon, asettaa kaikkien solujen tilaksi false.
+	 */
 	public void clear(){ 
 
 		for(int j = 0; j < size; j++){
@@ -67,9 +78,13 @@ public class CellGrid{
 	}
 
 
-	/*
+	/**
 	 * Asettaa (x,y) -pisteess‰ sijaitsevan solun el‰v‰ksi
 	 * tai kuolleeksi.
+	 * 
+	 * @.pre	x != null &&
+	 * 			y != null &&
+	 * 			alive != null
 	 */
 	public void setCellStatus(int x, int y, boolean alive) {
 		t[x][y] = alive;

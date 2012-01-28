@@ -8,9 +8,12 @@ public class GameOfLife implements Runnable{
 	private CellGrid grid;
 	private boolean simulate;
 	
+	/**
+	 * K‰ynnist‰‰ pelin
+	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args){
 		GameOfLife game = new GameOfLife();
-
 	}
 	
 	/**
@@ -100,7 +103,7 @@ public class GameOfLife implements Runnable{
 			try {
 				this.nextStep();
 				ui.update();
-				Thread.sleep(500);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

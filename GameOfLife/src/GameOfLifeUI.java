@@ -1,7 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -70,7 +68,7 @@ public class GameOfLifeUI implements ActionListener {
 	}
 
 
-	/*
+	/**
 	 * Käsittelee käyttöliittymätapahtumat, jotka ovat LifeCanvaksen ulkopuolella
 	 */
 	public void actionPerformed(ActionEvent e) {
@@ -101,9 +99,11 @@ public class GameOfLifeUI implements ActionListener {
 	}
 
 
+	/**
+	 * Päivittää pelialustan.
+	 */
 	public void update() {
 		canv.repaint();
-		
 	}
 
 }
